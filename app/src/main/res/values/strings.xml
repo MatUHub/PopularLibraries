@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PopularLibraries</string>
+    <string name="enterLogin">Введите логин</string>
+    <string name="enterPassword">Введите пароль</string>
+    <string name="enter">Войти</string>
+    <string name="registration">Регистрация</string>
+    <string name="forgotPassword">Забыл пароль</string>
 </resources>
