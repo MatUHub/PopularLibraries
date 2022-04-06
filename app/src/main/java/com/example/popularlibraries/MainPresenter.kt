@@ -1,5 +1,10 @@
 package com.example.popularlibraries
 
+import android.os.Looper
+import java.lang.Thread.sleep
+import java.util.*
+import android.os.Handler
+
 
 interface MainPresenter {
     fun onAttach(view: MainView)
@@ -10,6 +15,8 @@ interface MainPresenter {
     class Base(private val model: MainModel) : MainPresenter {
 
         private var view: MainView = MainView.Empty()
+        private val handler = Handler(Looper.getMainLooper())
+
 
         override fun onAttach(view: MainView) {
             this.view = view
@@ -18,22 +25,46 @@ interface MainPresenter {
         }
 
         override fun onLogin(login: String, password: String) {
-            if (login == "" || password == "") {
-                view.setError(R.string.enterLoginAndPassword)
-            } else {
-                if (login == password) {
-                    view.setSuccess(R.string.accessAllowed)
-                    view.setOpenImage()
-                } else view.setError(R.string.loginAndPasswordIncorrect)
-            }
+            view.showProgress()
+            Thread {
+                sleep(2000)
+                handler.post {
+                    if (login == "" || password == "") {
+                        view.setError(R.string.enterLoginAndPassword)
+                        view.hideProgress()
+                    } else {
+                        if (login == password) {
+                            view.setSuccess(R.string.accessAllowed)
+                            view.setOpenImage()
+                        } else {
+                            view.setError(R.string.loginAndPasswordIncorrect)
+                            view.hideProgress()
+                        }
+                    }
+                }
+            }.start()
         }
 
         override fun onRegistration() {
-
+            view.showProgress()
+            Thread {
+                sleep(2000)
+                handler.post {
+                    view.setSuccessLoad(R.string.openFrameRegistration)
+                        view.hideProgress()
+                }
+            }.start()
         }
 
         override fun onForgotPassword() {
-
+            view.showProgress()
+            Thread {
+                sleep(2000)
+                handler.post {
+                    view.setSuccessLoad(R.string.openFrameForgetPassword)
+                    view.hideProgress()
+                }
+            }.start()
         }
     }
 }

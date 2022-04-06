@@ -28,7 +28,16 @@ class MainActivity : AppCompatActivity(), MainView {
                 binding.loginText.text.toString(),
                 binding.passwordText.text.toString()
             )
+        }
 
+        binding.buttonRegistration.setOnClickListener {
+            hideKeyboard(this)
+            presenter.onRegistration()
+        }
+
+        binding.buttonForgotPassword.setOnClickListener {
+            hideKeyboard(this)
+            presenter.onForgotPassword()
         }
     }
 

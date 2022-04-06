@@ -12,4 +12,8 @@
     <string name="accessAllowed">Доступ разрешен</string>
     <string name="loginAndPasswordIncorrect">Логин или пароль не верны</string>
 
+    <string name="openFrameRegistration">Открытие окна регистрации</string>
+    <string name="openFrameForgetPassword">Открытие окна восствновления пароля</string>
+
+
 </resources>
