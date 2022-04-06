@@ -2,9 +2,7 @@ package com.example.popularlibraries
 
 import android.os.Looper
 import java.lang.Thread.sleep
-import java.util.*
 import android.os.Handler
-
 
 interface MainPresenter {
     fun onAttach(view: MainView)
@@ -51,7 +49,7 @@ interface MainPresenter {
                 sleep(2000)
                 handler.post {
                     view.setSuccessLoad(R.string.openFrameRegistration)
-                        view.hideProgress()
+                    view.hideProgress()
                 }
             }.start()
         }

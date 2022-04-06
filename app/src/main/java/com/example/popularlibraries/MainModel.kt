@@ -1,8 +1,6 @@
 package com.example.popularlibraries
 
-
 import java.util.*
-
 
 interface MainModel {
 

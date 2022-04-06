@@ -10,7 +10,7 @@ interface MainView {
     fun showProgress()
     fun hideProgress()
 
-    class Empty() : MainView {
+    class Empty : MainView {
         override fun setSuccess(message: Int) = Unit
         override fun setError(message: Int) = Unit
         override fun setSuccessLoad(message: Int) = Unit
