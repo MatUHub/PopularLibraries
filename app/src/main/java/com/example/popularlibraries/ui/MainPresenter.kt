@@ -1,8 +1,10 @@
-package com.example.popularlibraries
+package com.example.popularlibraries.ui
 
 import android.os.Looper
 import java.lang.Thread.sleep
 import android.os.Handler
+import com.example.popularlibraries.MainModel
+import com.example.popularlibraries.R
 
 interface MainPresenter {
     fun onAttach(view: MainView)

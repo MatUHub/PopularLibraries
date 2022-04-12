@@ -1,4 +1,4 @@
-package com.example.popularlibraries
+package com.example.popularlibraries.ui
 
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
+import com.example.popularlibraries.MainModel
+import com.example.popularlibraries.R
 import com.example.popularlibraries.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -21,20 +23,20 @@ class MainActivity : AppCompatActivity(), MainView {
         presenter = restorePresenter()
         presenter?.onAttach(this)
 
-        binding.buttonEnter.setOnClickListener {
+        binding.enterButton.setOnClickListener {
             hideKeyboard(this)
             presenter?.onLogin(
-                binding.loginText.text.toString(),
-                binding.passwordText.text.toString()
+                binding.loginEditText.text.toString(),
+                binding.passwordEditText.text.toString()
             )
         }
 
-        binding.buttonRegistration.setOnClickListener {
+        binding.registrationButton.setOnClickListener {
             hideKeyboard(this)
             presenter?.onRegistration()
         }
 
-        binding.buttonForgotPassword.setOnClickListener {
+        binding.forgotPasswordButton.setOnClickListener {
             hideKeyboard(this)
             presenter?.onForgotPassword()
         }
@@ -42,11 +44,11 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun setSuccess(message: Int) {
         setSnack(message)
-        binding.buttonEnter.isVisible = false
-        binding.buttonRegistration.isVisible = false
-        binding.buttonForgotPassword.isVisible = false
-        binding.loginText.isVisible = false
-        binding.passwordText.isVisible = false
+        binding.enterButton.isVisible = false
+        binding.registrationButton.isVisible = false
+        binding.forgotPasswordButton.isVisible = false
+        binding.loginEditText.isVisible = false
+        binding.passwordEditText.isVisible = false
     }
 
     override fun setError(message: Int) {
@@ -63,19 +65,19 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun setOpenImage() {
-        binding.imageAccess.setImageResource(R.drawable.ic_open_24)
+        binding.accessImageView.setImageResource(R.drawable.ic_open_24)
     }
 
     override fun showProgress() {
-        binding.buttonEnter.isEnabled = false
-        binding.buttonRegistration.isEnabled = false
-        binding.buttonForgotPassword.isEnabled = false
+        binding.enterButton.isEnabled = false
+        binding.registrationButton.isEnabled = false
+        binding.forgotPasswordButton.isEnabled = false
     }
 
     override fun hideProgress() {
-        binding.buttonEnter.isEnabled = true
-        binding.buttonRegistration.isEnabled = true
-        binding.buttonForgotPassword.isEnabled = true
+        binding.enterButton.isEnabled = true
+        binding.registrationButton.isEnabled = true
+        binding.forgotPasswordButton.isEnabled = true
     }
 
     private fun hideKeyboard(activity: Activity) {

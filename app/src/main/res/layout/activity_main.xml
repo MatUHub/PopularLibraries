@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/mainLayoutMargin"
     android:id="@+id/container"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <EditText
         android:autofillHints="name"
         android:inputType="text"
-        android:id="@+id/loginText"
+        android:id="@+id/login_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/mainLayoutMargin"
@@ -23,7 +23,7 @@
     <EditText
         android:autofillHints="username"
         android:inputType="textPassword"
-        android:id="@+id/passwordText"
+        android:id="@+id/password_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/mainLayoutMargin"
@@ -31,47 +31,47 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginText" />
+        app:layout_constraintTop_toBottomOf="@+id/login_edit_text" />
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonEnter"
+        android:id="@+id/enter_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/mainLayoutMargin"
         android:text="@string/enter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordText" />
+        app:layout_constraintTop_toBottomOf="@+id/password_edit_text" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonRegistration"
+        android:id="@+id/registration_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/mainLayoutMargin"
         android:text="@string/registration"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEnter" />
+        app:layout_constraintTop_toBottomOf="@+id/enter_button" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonForgotPassword"
+        android:id="@+id/forgot_password_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/mainLayoutMargin"
         android:text="@string/forgotPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonRegistration" />
+        app:layout_constraintTop_toBottomOf="@+id/registration_button" />
 
     <ImageView
-        android:id="@+id/imageAccess"
+        android:id="@+id/access_image_view"
         android:layout_width="200dp"
         android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:src="@drawable/ic_lock_24"
-        app:layout_constraintTop_toBottomOf="@+id/buttonForgotPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/forgot_password_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

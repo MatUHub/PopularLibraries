@@ -1,4 +1,4 @@
-package com.example.popularlibraries
+package com.example.popularlibraries.ui
 
 interface MainView {
 
