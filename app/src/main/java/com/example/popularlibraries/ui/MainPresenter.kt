@@ -3,8 +3,9 @@ package com.example.popularlibraries.ui
 import android.os.Looper
 import java.lang.Thread.sleep
 import android.os.Handler
-import com.example.popularlibraries.MainModel
 import com.example.popularlibraries.R
+import com.example.popularlibraries.domain.LoginApi
+import com.example.popularlibraries.domain.LoginUsecase
 
 interface MainPresenter {
     fun onAttach(view: MainView)
@@ -12,7 +13,7 @@ interface MainPresenter {
     fun onRegistration()
     fun onForgotPassword()
 
-    class Base(private val model: MainModel) : MainPresenter {
+    class Base(private val loginUsecase: LoginUsecase) : MainPresenter {
 
         private var view: MainView = MainView.Empty()
         private val handler = Handler(Looper.getMainLooper())
@@ -20,16 +21,15 @@ interface MainPresenter {
 
         override fun onAttach(view: MainView) {
             this.view = view
-            if (model.load()) view.setSuccessLoad(R.string.serverUploadSuccessful)
-            else view.setErrorLoad(R.string.serverAccessError)
+
         }
 
         override fun onLogin(login: String, password: String) {
             view.showProgress()
-            Thread {
-                sleep(2000)
-                handler.post {
-                    if (login == "" || password == "") {
+
+                loginUsecase.login(login, password){
+                    result ->
+                    if (result) {
                         view.setError(R.string.enterLoginAndPassword)
                         view.hideProgress()
                     } else {
@@ -42,7 +42,6 @@ interface MainPresenter {
                         }
                     }
                 }
-            }.start()
         }
 
         override fun onRegistration() {

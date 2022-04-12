@@ -3,12 +3,17 @@ package com.example.popularlibraries.ui
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
-import com.example.popularlibraries.MainModel
+import com.example.popularlibraries.App
 import com.example.popularlibraries.R
+import com.example.popularlibraries.app
+import com.example.popularlibraries.data.LoginUsecaseImpl
 import com.example.popularlibraries.databinding.ActivityMainBinding
+import com.example.popularlibraries.domain.LoginUsecase
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), MainView {
@@ -33,6 +38,7 @@ class MainActivity : AppCompatActivity(), MainView {
 
         binding.registrationButton.setOnClickListener {
             hideKeyboard(this)
+
             presenter?.onRegistration()
         }
 
@@ -96,7 +102,8 @@ class MainActivity : AppCompatActivity(), MainView {
 
     private fun restorePresenter(): MainPresenter.Base {
         val presenter = lastCustomNonConfigurationInstance as? MainPresenter.Base
-        return presenter ?: MainPresenter.Base(MainModel.Base())
+        val usecase: LoginUsecase = LoginUsecaseImpl(app.api, Handler(Looper.getMainLooper()))
+        return presenter ?: MainPresenter.Base(usecase)
     }
 
     override fun onRetainCustomNonConfigurationInstance(): Any? {
