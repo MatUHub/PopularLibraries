@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">PopularLibraries</string>
+    <string name="enterLogin">Введите логин</string>
+    <string name="enterPassword">Введите пароль</string>
+    <string name="enter">Войти</string>
+    <string name="registration">Регистрация</string>
+    <string name="forgotPassword">Забыл пароль</string>
+    <string name="serverUploadSuccessful">Загрузка к серверу удалась</string>
+    <string name="serverAccessError">Ошибка загрузки к серверу</string>
+    <string name="enterLoginAndPassword">Введите логин и пароль</string>
+    <string name="accessAllowed">Доступ разрешен</string>
+    <string name="loginAndPasswordIncorrect">Логин или пароль не верны</string>
+    <string name="openFrameRegistration">Открытие окна регистрации</string>
+    <string name="openFrameForgetPassword">Открытие окна восствновления пароля</string>
 </resources>
