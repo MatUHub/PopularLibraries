@@ -1,11 +1,9 @@
 package com.example.popularlibraries.ui
 
-import android.os.Looper
-import java.lang.Thread.sleep
-import android.os.Handler
-import com.example.popularlibraries.R
+
 import com.example.popularlibraries.domain.LoginUsecase
 import com.example.popularlibraries.utils.Publisher
+
 
 interface LoginViewModel {
 
@@ -28,9 +26,9 @@ interface LoginViewModel {
         override fun onLogin(login: String, password: String) {
             shouldShowProgress.post(true)
             loginUsecase.login(login, password) { result ->
-                shouldShowProgress.post(false)
-                if (result) {
-                    errorText.post("")
+
+                if (result && login != "" && password != "") {
+
                     isSuccess.post(true)
                     shouldShowProgress.post(false)
                 } else {
@@ -46,27 +44,5 @@ interface LoginViewModel {
                 }
             }
         }
-
-        /*//override fun onRegistration() {
-            view.showProgress()
-            Thread {
-                sleep(2000)
-                handler.post {
-                    view.setSuccessLoad(R.string.openFrameRegistration)
-                    view.hideProgress()
-                }
-            }.start()
-        }*/
-
-        /*override fun onForgotPassword() {
-            view.showProgress()
-            Thread {
-                sleep(2000)
-                handler.post {
-                    view.setSuccessLoad(R.string.openFrameForgetPassword)
-                    view.hideProgress()
-                }
-            }.start()
-        }*/
     }
 }

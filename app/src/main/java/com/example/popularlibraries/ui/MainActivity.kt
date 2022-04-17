@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var viewModel: LoginViewModel.Base? = null
+    private val handler: Handler by lazy { Handler(Looper.getMainLooper()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,20 +34,23 @@ class MainActivity : AppCompatActivity() {
                 binding.loginEditText.text.toString(),
                 binding.passwordEditText.text.toString()
             )
+
         }
 
         binding.registrationButton.setOnClickListener {
             hideKeyboard(this)
+            setSnack("Открытие окна регистрации")
 
 
         }
 
         binding.forgotPasswordButton.setOnClickListener {
             hideKeyboard(this)
+            setSnack("Открытие окна забыл пароль")
 
         }
 
-        viewModel?.shouldShowProgress?.subscribe { shouldShow ->
+        viewModel?.shouldShowProgress?.subscribe(handler) { shouldShow ->
             if (shouldShow == true) {
                 showProgress()
             } else {
@@ -56,13 +60,13 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        viewModel?.isSuccess?.subscribe {
+        viewModel?.isSuccess?.subscribe(handler) {
             if (it == true) {
                 setSuccess()
             }
         }
 
-        viewModel?.errorText?.subscribe {
+        viewModel?.errorText?.subscribe(handler) {
             it?.let {
                 val success = viewModel?.isSuccess?.value
                 if (success == false) {
@@ -78,18 +82,10 @@ class MainActivity : AppCompatActivity() {
         binding.forgotPasswordButton.isVisible = false
         binding.loginEditText.isVisible = false
         binding.passwordEditText.isVisible = false
+        setOpenImage()
     }
 
     fun setError(message: String) {
-        setSnack(message)
-    }
-
-    fun setSuccessLoad(message: String) {
-        setSnack(message)
-
-    }
-
-    fun setErrorLoad(message: String) {
         setSnack(message)
     }
 
