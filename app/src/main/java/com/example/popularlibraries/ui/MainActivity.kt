@@ -8,7 +8,6 @@ import android.os.Looper
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
-import com.example.popularlibraries.App
 import com.example.popularlibraries.R
 import com.example.popularlibraries.app
 import com.example.popularlibraries.data.LoginUsecaseImpl
@@ -16,21 +15,21 @@ import com.example.popularlibraries.databinding.ActivityMainBinding
 import com.example.popularlibraries.domain.LoginUsecase
 import com.google.android.material.snackbar.Snackbar
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var presenter: MainPresenter.Base? = null
+    private var viewModel: LoginViewModel.Base? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        presenter = restorePresenter()
-        presenter?.onAttach(this)
+        viewModel = restoreViewModel()
+
 
         binding.enterButton.setOnClickListener {
             hideKeyboard(this)
-            presenter?.onLogin(
+            viewModel?.onLogin(
                 binding.loginEditText.text.toString(),
                 binding.passwordEditText.text.toString()
             )
@@ -39,17 +38,41 @@ class MainActivity : AppCompatActivity(), MainView {
         binding.registrationButton.setOnClickListener {
             hideKeyboard(this)
 
-            presenter?.onRegistration()
+
         }
 
         binding.forgotPasswordButton.setOnClickListener {
             hideKeyboard(this)
-            presenter?.onForgotPassword()
+
+        }
+
+        viewModel?.shouldShowProgress?.subscribe { shouldShow ->
+            if (shouldShow == true) {
+                showProgress()
+            } else {
+                hideProgress()
+            }
+        }
+
+
+
+        viewModel?.isSuccess?.subscribe {
+            if (it == true) {
+                setSuccess()
+            }
+        }
+
+        viewModel?.errorText?.subscribe {
+            it?.let {
+                val success = viewModel?.isSuccess?.value
+                if (success == false) {
+                    setError(it)
+                }
+            }
         }
     }
 
-    override fun setSuccess(message: Int) {
-        setSnack(message)
+    private fun setSuccess() {
         binding.enterButton.isVisible = false
         binding.registrationButton.isVisible = false
         binding.forgotPasswordButton.isVisible = false
@@ -57,30 +80,30 @@ class MainActivity : AppCompatActivity(), MainView {
         binding.passwordEditText.isVisible = false
     }
 
-    override fun setError(message: Int) {
+    fun setError(message: String) {
         setSnack(message)
     }
 
-    override fun setSuccessLoad(message: Int) {
+    fun setSuccessLoad(message: String) {
         setSnack(message)
 
     }
 
-    override fun setErrorLoad(message: Int) {
+    fun setErrorLoad(message: String) {
         setSnack(message)
     }
 
-    override fun setOpenImage() {
+    fun setOpenImage() {
         binding.accessImageView.setImageResource(R.drawable.ic_open_24)
     }
 
-    override fun showProgress() {
+    fun showProgress() {
         binding.enterButton.isEnabled = false
         binding.registrationButton.isEnabled = false
         binding.forgotPasswordButton.isEnabled = false
     }
 
-    override fun hideProgress() {
+    fun hideProgress() {
         binding.enterButton.isEnabled = true
         binding.registrationButton.isEnabled = true
         binding.forgotPasswordButton.isEnabled = true
@@ -96,17 +119,24 @@ class MainActivity : AppCompatActivity(), MainView {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun setSnack(message: Int) {
+    private fun setSnack(message: String) {
         Snackbar.make(binding.container, message, Snackbar.LENGTH_SHORT).show()
     }
 
-    private fun restorePresenter(): MainPresenter.Base {
-        val presenter = lastCustomNonConfigurationInstance as? MainPresenter.Base
+    private fun restoreViewModel(): LoginViewModel.Base {
+        val presenter = lastCustomNonConfigurationInstance as? LoginViewModel.Base
         val usecase: LoginUsecase = LoginUsecaseImpl(app.api, Handler(Looper.getMainLooper()))
-        return presenter ?: MainPresenter.Base(usecase)
+        return presenter ?: LoginViewModel.Base(usecase)
     }
 
     override fun onRetainCustomNonConfigurationInstance(): Any? {
-        return presenter
+        return viewModel
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel?.isSuccess?.unsubscribeAll()
+        viewModel?.errorText?.unsubscribeAll()
+        viewModel?.shouldShowProgress?.unsubscribeAll()
     }
 }

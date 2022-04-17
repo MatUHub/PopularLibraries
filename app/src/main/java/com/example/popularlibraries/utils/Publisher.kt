@@ -4,7 +4,8 @@ private typealias Subscriber<T> = (T?) -> Unit
 
 class Publisher<T> {
     private val subscribers: MutableSet<Subscriber<T>> = mutableSetOf()
-    private var value: T? = null
+    var value: T? = null
+        private set
     private var hasFirstValue = false
 
     fun subscribe(subscriber: Subscriber<T>) {
